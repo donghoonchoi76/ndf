@@ -17,7 +17,6 @@ public class Planet : MonoBehaviour
 	// Use this for initialization
 	void Start () 
     {
-
         iTween.RotateBy(gameObject, iTween.Hash("z", 90, "speed", fRotateSpeed, "loopType", "loop", "easeType", "linear"));
 	}
 	
