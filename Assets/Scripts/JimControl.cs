@@ -4,46 +4,90 @@ using System.Collections;
 
 public class JimControl : MonoBehaviour
 {
-    enum STATE
-    {
-        IDLE,
-        WALK,
-        SHOOT,
-        WALK_SHOOT,
-        RECHARGE,
-        DAMAGE,
-    };
+    const int GROGGY = 100;
+    const int IDLE = 0;
+    const int RUN = 1;
+    const int DRAIN = 2;
+
+    int m_nState = 0;
 
     float m_fAngle = 0;
     float m_fMoveSpeed = 2.0f;
 
+    float m_fElectricity = 30.0f;
+    float m_fMaxEletricity = 40.0f;
+
+    float _fTimer = 0;
+    bool _facingRight = true;
+    Animator anim;
+
     // Use this for initialization
     void Start()
     {
-        //Animator anim;
-        //anim = GetComponent<Animator>();
-        //anim.SetFloat("speed", Mathf.Abs(input));
+        m_nState = 0;        
+        anim = GetComponent<Animator>();        
     }
 
     // Update is called once per frame
     void Update()
     {
-        Move();
+        _fTimer += Time.deltaTime;
+
+        // Moveable State
+        if (m_nState != GROGGY)
+        {
+            if (Move())
+                _fTimer = 0;
+
+            if (_fTimer >= 1.0f)
+            {
+                m_nState = DRAIN;
+                _fTimer = 0;
+            }
+            DrainProcess();
+        }
+
+        
+
+        if (_fTimer > 1.0)
+        {
+
+        }
+
 
     }
-
-    void Move()
+    //------------------------------------------------
+    // Movement
+    //------------------------------------------------
+    bool Move()
     {
+        bool ret = false;
         int key = 0;
-
+        anim.SetFloat("speed", 0.0f);
         if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (_facingRight == true)
+                Flip();
+
+            _facingRight = false;
             key = -1;
+        }
         if (Input.GetKey(KeyCode.RightArrow))
+        {
+            if (_facingRight == false)
+                Flip();
+
+            _facingRight = true;
             key = 1;
+        }
 
         if (key != 0)
         {
+            ret = true;
+            anim.SetFloat("speed", 1.0f);
+
             m_fAngle += -key * m_fMoveSpeed;
+
             if (m_fAngle >= 360)
                 m_fAngle -= 360;
             if (m_fAngle < 0)
@@ -51,6 +95,25 @@ public class JimControl : MonoBehaviour
         }
         Quaternion qt = Quaternion.identity;
         qt.eulerAngles = new Vector3(0, 0, m_fAngle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, qt, 5.0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, qt, 10.0f * Time.deltaTime);
+        return ret;
+    }
+    //------------------------------------------------
+    // Drain Electricity
+    //------------------------------------------------
+    int DrainProcess()
+    {        
+        return 1;
+    }
+
+    //------------------------------------------------
+    // Flip  Animation
+    //------------------------------------------------
+    void Flip()
+    {
+        _facingRight = !_facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 }
