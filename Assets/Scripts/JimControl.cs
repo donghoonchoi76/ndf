@@ -4,18 +4,18 @@ using System.Collections;
 
 public class JimControl : MonoBehaviour
 {
+    Planet planet;
+
     const int GROGGY = 0x80;
     const int IDLE = 0;
     const int RUN = 1;
     const int DRAIN = 2;    
 
     int m_nState = 0;
-
-    float m_fAngle = 0;
     float m_fMoveSpeed = 2.0f;
-
-    float m_fElectricity = 30.0f;
-    float m_fMaxEletricity = 40.0f;
+    public float m_fElecDrainSpeed = 2.0f;
+    public float m_fElectricity = 30.0f;
+    public float m_fMaxEletricity = 40.0f;
 
     float _fTimer = 0;
     bool _facingRight = true;
@@ -25,7 +25,8 @@ public class JimControl : MonoBehaviour
     void Start()
     {
         m_nState = 0;        
-        anim = GetComponent<Animator>();        
+        anim = GetComponent<Animator>();
+        planet = GameObject.Find("Planet").GetComponent<Planet>();
     }
 
     // Update is called once per frame
@@ -45,12 +46,14 @@ public class JimControl : MonoBehaviour
                 if (_fTimer >= 1.0f)
                 {
                     m_nState = DRAIN;
+                    anim.SetBool("drain", true);
                 }
                 if (m_nState == DRAIN)
                 {
                     if (_fTimer >= 1.0f)
-                    {
+                    {                        
                         DrainProcess();
+                        _fTimer = 0.0f;
                     }                    
                 }
             }                        
@@ -69,6 +72,8 @@ public class JimControl : MonoBehaviour
         bool ret = false;
         int key = 0;
         anim.SetFloat("speed", 0.0f);
+        float angle = 0.0f;
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             if (_facingRight == true)
@@ -90,17 +95,18 @@ public class JimControl : MonoBehaviour
         {
             ret = true;
             anim.SetFloat("speed", 1.0f);
+            //m_fAngle += -key * m_fMoveSpeed;            
+            angle = -key * m_fMoveSpeed * 10;
 
-            m_fAngle += -key * m_fMoveSpeed;
-
-            if (m_fAngle >= 360)
-                m_fAngle -= 360;
-            if (m_fAngle < 0)
-                m_fAngle += 360;
+            if (angle >= 360)
+                angle -= 360;
+            if (angle < 0)
+                angle += 360;
         }
         Quaternion qt = Quaternion.identity;
-        qt.eulerAngles = new Vector3(0, 0, m_fAngle);
-        transform.rotation = Quaternion.Slerp(transform.rotation, qt, 10.0f * Time.deltaTime);
+        qt.eulerAngles = new Vector3(0, 0, angle);
+        qt.eulerAngles += transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Slerp(transform.rotation, qt, 10.0f * Time.deltaTime);        
         return ret;
     }
     //------------------------------------------------
@@ -108,7 +114,14 @@ public class JimControl : MonoBehaviour
     //------------------------------------------------
     int DrainProcess()
     {
-        Debug.Log("+1 energy");
+        if (planet.GetElect() > 0 && m_fElectricity <= m_fMaxEletricity)
+        {
+            planet.fElec -= m_fElecDrainSpeed;
+            m_fElectricity += m_fElecDrainSpeed;
+            m_fElectricity = Mathf.Clamp(m_fElectricity, 0, m_fMaxEletricity);
+            Debug.Log(m_fElectricity);
+        }
+        
         return 1;
     }
 
