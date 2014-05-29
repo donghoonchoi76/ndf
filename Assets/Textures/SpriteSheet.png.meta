@@ -50,9 +50,9 @@ TextureImporter:
         width: 250
         height: 250
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: char_eye
+    - name: SpriteSheet_1
       rect:
         serializedVersion: 2
         x: 307
@@ -62,37 +62,47 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: char_body
+    - name: SpriteSheet_2
       rect:
         serializedVersion: 2
         x: 332
         y: 941
         width: 50
         height: 64
-      alignment: 0
-      pivot: {x: .5, y: .5}
+      alignment: 7
+      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: char_head
+    - name: SpriteSheet_3
       rect:
         serializedVersion: 2
-        x: 286
-        y: 937
+        x: 279
+        y: 942
         width: 38
         height: 26
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: char_swear
+    - name: SpriteSheet_4
       rect:
         serializedVersion: 2
         x: 296
         y: 906
         width: 17
         height: 19
-      alignment: 6
-      pivot: {x: 0, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: char_foot
+    - name: SpriteSheet_5
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 915
+        width: 8
+        height: 16
+      alignment: 2
+      pivot: {x: .5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SpriteSheet_6
       rect:
         serializedVersion: 2
         x: 332
@@ -102,7 +112,7 @@ TextureImporter:
       alignment: 2
       pivot: {x: .5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: char_hand
+    - name: SpriteSheet_7
       rect:
         serializedVersion: 2
         x: 362
