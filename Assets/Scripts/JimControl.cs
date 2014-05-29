@@ -4,10 +4,10 @@ using System.Collections;
 
 public class JimControl : MonoBehaviour
 {
-    const int GROGGY = 100;
+    const int GROGGY = 0x80;
     const int IDLE = 0;
     const int RUN = 1;
-    const int DRAIN = 2;
+    const int DRAIN = 2;    
 
     int m_nState = 0;
 
@@ -34,27 +34,32 @@ public class JimControl : MonoBehaviour
         _fTimer += Time.deltaTime;
 
         // Moveable State
-        if (m_nState != GROGGY)
+        if ((m_nState & 0x80) != 0x80)
         {
             if (Move())
-                _fTimer = 0;
-
-            if (_fTimer >= 1.0f)
             {
-                m_nState = DRAIN;
                 _fTimer = 0;
             }
-            DrainProcess();
+            else
+            {
+                if (_fTimer >= 1.0f)
+                {
+                    m_nState = DRAIN;
+                }
+                if (m_nState == DRAIN)
+                {
+                    if (_fTimer >= 1.0f)
+                    {
+                        DrainProcess();
+                    }                    
+                }
+            }                        
         }
-
-        
-
+       
         if (_fTimer > 1.0)
         {
 
         }
-
-
     }
     //------------------------------------------------
     // Movement
@@ -102,7 +107,8 @@ public class JimControl : MonoBehaviour
     // Drain Electricity
     //------------------------------------------------
     int DrainProcess()
-    {        
+    {
+        Debug.Log("+1 energy");
         return 1;
     }
 
