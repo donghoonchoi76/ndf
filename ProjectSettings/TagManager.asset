@@ -41,6 +41,10 @@ TagManager:
     userID: 0
     uniqueID: 0
     locked: 0
+  - name: Dron
+    userID: 2
+    uniqueID: 1516987835
+    locked: 0
   - name: Character
     userID: 1
     uniqueID: 2909736481
