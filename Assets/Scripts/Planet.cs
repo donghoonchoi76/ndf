@@ -10,20 +10,24 @@ public class Planet : MonoBehaviour
     public float fMaxElec = 300.0f;
     public float fElec = 300.0f;
     public float fElecChargeSpeed = 5.0f; //per second
-    public float fRotateSpeed = 20.0f;
+    public float fRotateSpeed = 40.0f;
+    public float fRotateAccel = 20.0f;
 
     protected bool bRecoveryMode = false; // in this time, Jim cannot charge elec from planet.
+    protected float fCurrRotateSpeed = 100.0f;
+
 
 	// Use this for initialization
 	void Start () 
     {
-        iTween.RotateBy(gameObject, iTween.Hash("z", 90, "speed", fRotateSpeed, "loopType", "loop", "easeType", "linear"));
+        fCurrRotateSpeed = fRotateSpeed;
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
         UpdateElec();
+        UpdateRotation();
 	}
 
     void UpdateElec()
@@ -42,9 +46,45 @@ public class Planet : MonoBehaviour
         else fElec = fMaxElec;
     }
 
-    public float GetElect()
+    void UpdateRotation()
+    {
+        float fTargetSpeed = fRotateSpeed;
+        if (fElec >= 450.0f) fTargetSpeed *= 1.2f;
+        else if (fElec >= 300.0f) fTargetSpeed *= 1.0f;
+        else if (fElec >= 150.0f) fTargetSpeed *= 0.75f;
+        else fTargetSpeed *= 0.5f;
+
+        if(fTargetSpeed - fCurrRotateSpeed > 0.0f)
+        {
+            fCurrRotateSpeed += (fRotateAccel * Time.deltaTime);
+            if(fCurrRotateSpeed > fTargetSpeed) fCurrRotateSpeed = fTargetSpeed;
+        }
+        else if(fTargetSpeed - fCurrRotateSpeed < 0.0f)
+        {
+            fCurrRotateSpeed -= (fRotateAccel * Time.deltaTime);
+            if(fCurrRotateSpeed < fTargetSpeed) fCurrRotateSpeed = fTargetSpeed;
+        }
+
+        transform.Rotate(0.0f, 0.0f, (fCurrRotateSpeed * Time.deltaTime));
+    }
+
+    // 
+    //  float GetElect()...
+    //  requireAmount : how much requested electricity to the planet..
+    //  return value : how much actually planet can gives.
+    //  This method reduces electricity of planet automatically by return value.
+    //
+    public float GetElec(float requiredAmount)
     {
         if (bRecoveryMode) return 0.0f;
-        return fElec;
+
+        if (fElec >= requiredAmount) fElec -= requiredAmount;
+        else
+        {
+            requiredAmount = fElec;
+            fElec = 0.0f;
+        }
+
+        return requiredAmount;
     }
 }
