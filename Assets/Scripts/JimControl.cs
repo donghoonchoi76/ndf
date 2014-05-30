@@ -13,7 +13,7 @@ public class JimControl : MonoBehaviour
 
     int m_nState = 0;
     float m_fMoveSpeed = 2.0f;
-    public float m_fElecDrainSpeed = 2.0f;
+    public float m_fElecDrainAmount = 2.0f;
     public float m_fElectricity = 30.0f;
     public float m_fMaxEletricity = 40.0f;
 
@@ -114,14 +114,10 @@ public class JimControl : MonoBehaviour
     //------------------------------------------------
     int DrainProcess()
     {
-        if (planet.GetElect() > 0 && m_fElectricity <= m_fMaxEletricity)
-        {
-            planet.fElec -= m_fElecDrainSpeed;
-            m_fElectricity += m_fElecDrainSpeed;
-            m_fElectricity = Mathf.Clamp(m_fElectricity, 0, m_fMaxEletricity);
-            Debug.Log(m_fElectricity);
-        }
-        
+        float amount = planet.GetElec(m_fElecDrainAmount);
+        m_fElectricity += amount;
+        m_fElectricity = Mathf.Clamp(m_fElectricity, 0, m_fMaxEletricity);            
+        Debug.Log(m_fElectricity);        
         return 1;
     }
 
