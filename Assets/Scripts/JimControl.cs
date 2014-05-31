@@ -5,64 +5,69 @@ using System.Collections;
 public class JimControl : MonoBehaviour
 {
     Planet planet;
+    SpriteRenderer childSprRenderer;
 
-    const int GROGGY = 0x80;
-    const int IDLE = 0;
-    const int RUN = 1;
-    const int DRAIN = 2;    
+    bool isGroggy = false;
+    bool isMighty = false;
+    bool isMoving = false;
+    bool isDrain = false;
 
     int m_nState = 0;
-    float m_fMoveSpeed = 2.0f;
+
+    public float m_fMoveSpeed = 2.0f;
     public float m_fElecDrainAmount = 2.0f;
     public float m_fElectricity = 30.0f;
     public float m_fMaxEletricity = 40.0f;
 
     float _fTimer = 0;
+    float _fFireTimer = 0;
     bool _facingRight = true;
     Animator anim;
 
     // Use this for initialization
     void Start()
     {
-        m_nState = 0;        
+        m_nState = 0;
         anim = GetComponent<Animator>();
         planet = GameObject.Find("Planet").GetComponent<Planet>();
+        childSprRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Test
+        if (Input.GetKeyDown(KeyCode.T)) { Damage(); Debug.Log("T"); }
+
         _fTimer += Time.deltaTime;
 
-        // Moveable State
-        if ((m_nState & 0x80) != 0x80)
+        // Movable state
+        if (!isGroggy)
         {
-            if (Move())
+            isMoving = Move();
+            if (isMoving)
             {
                 _fTimer = 0;
+                isDrain = false;
+                anim.SetBool("drain", false);
             }
             else
-            {
-                if (_fTimer >= 1.0f)
+            { // when it doesn't move
+                // This is Ready for Drain, not actual gettting electricity.
+                if (_fTimer >= 1.0f )
                 {
-                    m_nState = DRAIN;
-                    anim.SetBool("drain", true);
+                    anim.SetBool("drain", true);        // start Drain motion, but it doesn't drain any things
+                    isDrain = true;
+                    _fTimer = 0;
                 }
-                if (m_nState == DRAIN)
+                if (isDrain == true)
                 {
-                    if (_fTimer >= 1.0f)
-                    {                        
-                        DrainProcess();
-                        _fTimer = 0.0f;
-                    }                    
+                    isDrain = Drain();
+                    if( isDrain == false )
+                        anim.SetBool("drain", false);
                 }
-            }                        
-        }
-       
-        if (_fTimer > 1.0)
-        {
-
-        }
+            }
+        }       
     }
     //------------------------------------------------
     // Movement
@@ -70,38 +75,35 @@ public class JimControl : MonoBehaviour
     bool Move()
     {
         bool ret = false;
-        int key = 0;
-        anim.SetFloat("speed", 0.0f);
         float angle = 0.0f;
+        anim.SetFloat("speed", 0.0f);
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        // Turn off Fire Animation
+        _fFireTimer += Time.deltaTime;
+        if (_fFireTimer > 0.2)                                          // Need Change later
+            anim.SetBool("fire", false);
+
+        float inputLR = Input.GetAxis("Horizontal");
+        bool inputFire = Input.GetKeyDown(KeyCode.Space);        
+        if (inputLR != 0)
         {
-            if (_facingRight == true)
+            if ((_facingRight == true && inputLR < 0) || (_facingRight == false && inputLR > 0))
                 Flip();
-
-            _facingRight = false;
-            key = -1;
+            _facingRight = (inputLR > 0) ? true : false;            
+            anim.SetFloat("speed", 1.0f);
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (inputFire)
         {
-            if (_facingRight == false)
-                Flip();
-
-            _facingRight = true;
-            key = 1;
+            anim.SetBool("fire", true);
+            _fFireTimer = 0;
         }
-
-        if (key != 0)
+        // it made movement
+        if (inputLR != 0 || inputFire == true)
         {
             ret = true;
-            anim.SetFloat("speed", 1.0f);
-            //m_fAngle += -key * m_fMoveSpeed;            
-            angle = -key * m_fMoveSpeed * 10;
-
-            if (angle >= 360)
-                angle -= 360;
-            if (angle < 0)
-                angle += 360;
+            angle = -inputLR * m_fMoveSpeed * 10;
+            if (angle >= 360)       angle -= 360;
+            else if (angle < 0)     angle += 360;
         }
         Quaternion qt = Quaternion.identity;
         qt.eulerAngles = new Vector3(0, 0, angle);
@@ -112,15 +114,53 @@ public class JimControl : MonoBehaviour
     //------------------------------------------------
     // Drain Electricity
     //------------------------------------------------
-    int DrainProcess()
+    bool Drain()
     {
         float amount = planet.GetElec(m_fElecDrainAmount);
+        if (m_fElectricity >= m_fMaxEletricity || amount == 0)
+        {
+            return false;
+        }
         m_fElectricity += amount;
-        m_fElectricity = Mathf.Clamp(m_fElectricity, 0, m_fMaxEletricity);            
-        Debug.Log(m_fElectricity);        
-        return 1;
+        m_fElectricity = Mathf.Clamp(m_fElectricity, 0, m_fMaxEletricity);
+        return true;
     }
+    //------------------------------------------------
+    // called by other objects
+    //------------------------------------------------
+    public void Damage()
+    {
+        if( isGroggy == true || isMighty == true )        
+            return;
 
+        anim.SetBool("damage", true);
+        anim.SetBool("drain", false);
+        isGroggy = true;
+        isMighty = true;
+        
+        StartCoroutine(Twinkle());
+    }
+    //------------------------------------------------
+    // AfterDamageProcess
+    //------------------------------------------------
+    IEnumerator Twinkle()
+    {
+        int i = 30;
+        while (i > 0)
+        {
+            yield return new WaitForSeconds( (i > 15)? 0.15f : 0.07f);
+            childSprRenderer.enabled = !childSprRenderer.enabled;
+            if (i == 15)
+            {
+                isMighty = true;
+                isGroggy = false;
+                anim.SetBool("damage", false);
+            }
+            i--;
+        }
+        isMighty = false;
+        childSprRenderer.enabled = true;
+    }
     //------------------------------------------------
     // Flip  Animation
     //------------------------------------------------
@@ -131,4 +171,5 @@ public class JimControl : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+    
 }

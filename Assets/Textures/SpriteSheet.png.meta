@@ -42,7 +42,57 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: SpriteSheet_0
+    - name: jim_idle
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 384
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jim_damage
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 384
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jim_run
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 256
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jim_drain
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jim_shoot
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: idle
       rect:
         serializedVersion: 2
         x: 17
@@ -52,27 +102,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_1
-      rect:
-        serializedVersion: 2
-        x: 307
-        y: 973
-        width: 11
-        height: 12
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_2
-      rect:
-        serializedVersion: 2
-        x: 332
-        y: 941
-        width: 50
-        height: 64
-      alignment: 7
-      pivot: {x: .5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_3
+    - name: spaceship
       rect:
         serializedVersion: 2
         x: 416
@@ -82,85 +112,15 @@ TextureImporter:
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_4
+    - name: enemy1
       rect:
         serializedVersion: 2
-        x: 279
-        y: 942
-        width: 38
-        height: 26
+        x: 602
+        y: 966
+        width: 35
+        height: 35
       alignment: 0
       pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_5
-      rect:
-        serializedVersion: 2
-        x: 296
-        y: 906
-        width: 17
-        height: 19
-      alignment: 6
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_6
-      rect:
-        serializedVersion: 2
-        x: 317
-        y: 915
-        width: 8
-        height: 16
-      alignment: 2
-      pivot: {x: .5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_7
-      rect:
-        serializedVersion: 2
-        x: 332
-        y: 910
-        width: 20
-        height: 21
-      alignment: 2
-      pivot: {x: .5, y: 1}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_8
-      rect:
-        serializedVersion: 2
-        x: 362
-        y: 913
-        width: 15
-        height: 15
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_9
-      rect:
-        serializedVersion: 2
-        x: 281
-        y: 800
-        width: 22
-        height: 21
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_10
-      rect:
-        serializedVersion: 2
-        x: 310
-        y: 797
-        width: 51
-        height: 28
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: SpriteSheet_11
-      rect:
-        serializedVersion: 2
-        x: 370
-        y: 795
-        width: 19
-        height: 36
-      alignment: 7
-      pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
