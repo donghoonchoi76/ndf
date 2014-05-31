@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour {
     void OnEnable()
     {
         speed = 4.0f;
-        rigidbody2D.velocity = transform.position.normalized * speed;
+        rigidbody2D.velocity = transform.up * speed;
     }
     void Update()
     {
@@ -19,13 +19,15 @@ public class Bullet : MonoBehaviour {
             SelfRelease();
     }
     //
-    void OnTriggerEner2D(Collider2D other)
+    void OnTriggerEner2D(Collider2D colider)
     {
+        Debug.Log(colider.tag);
+
         // Call Bullet destroy Particle, with the same parent if it is need something
         Debug.Log("Called Bullet OnTriggerEnter2D");
 
         // Destroy
-        Invoke("SelfRelease", 1);
+        Invoke("SelfRelease", 0.1f);
     }
     // Self Destroy 
     private void SelfRelease()
