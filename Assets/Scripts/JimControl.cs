@@ -33,7 +33,7 @@ public class JimControl : MonoBehaviour
         planet = GameObject.Find("Planet").GetComponent<Planet>();
         childSprRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         
-        rsBullet = Resources.Load("2wayBullet") as GameObject;                
+        //rsBullet = Resources.Load("2wayBullet") as GameObject;                
     }
 
     // Update is called once per frame

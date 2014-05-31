@@ -4,15 +4,17 @@ using System.Collections;
 public class Enemy0 : MonoBehaviour {
 
     public float HP = 100;
+    public float Power = 10;
 
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void OnEnable()
+    {
+        float speed = 1.0f;
+        rigidbody2D.velocity = transform.up * speed;
+    }
+    public void ChangeSpeed(float spd)
+    {
+        rigidbody2D.velocity = transform.up * spd;
+    }
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -22,7 +24,16 @@ public class Enemy0 : MonoBehaviour {
             Destroy(col.gameObject);
             HP -= damage;
             if (HP < 0)
-                Destroy(this.gameObject);            
+                ObjectPool.instance.ReleaseGameObject(this.gameObject);
+        }
+        if (col.tag == "Player")
+        {
+
+        }
+        if (col.tag == "Planet")
+        {
+            col.SendMessage("Damage", Power, SendMessageOptions.DontRequireReceiver);
+            ObjectPool.instance.ReleaseGameObject(this.gameObject);
         }
     }
 }
