@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 92393d9da29eb8046bc72f905eb5d5ad
+guid: 659f7aa98ae288440a51c55bda1e86de
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -42,33 +42,63 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: idle
+    - name: jim_idle
       rect:
         serializedVersion: 2
-        x: 17
-        y: 755
-        width: 250
-        height: 250
-      alignment: 0
-      pivot: {x: .5, y: .5}
+        x: 0
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: .5, y: .144970655}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: spaceship
+    - name: jim_damage
       rect:
         serializedVersion: 2
-        x: 416
-        y: 875
-        width: 103
-        height: 130
-      alignment: 7
-      pivot: {x: .5, y: 0}
+        x: 128
+        y: 384
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: .5, y: .184418201}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: enemy1
+    - name: jim_run
       rect:
         serializedVersion: 2
-        x: 602
-        y: 966
-        width: 35
-        height: 35
+        x: 0
+        y: 256
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: .5, y: .118671894}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jim_drain
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: .5, y: .223865986}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jim_shoot
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 128
+      alignment: 9
+      pivot: {x: .5, y: .230440527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jim_bullet
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 32
+        width: 18
+        height: 18
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

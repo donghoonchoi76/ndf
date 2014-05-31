@@ -6,6 +6,8 @@ public class JimControl : MonoBehaviour
 {
     Planet planet;
     SpriteRenderer childSprRenderer;
+    Animator anim;
+    GameObject rsBullet;
 
     bool isGroggy = false;
     bool isMighty = false;
@@ -22,7 +24,6 @@ public class JimControl : MonoBehaviour
     float _fTimer = 0;
     float _fFireTimer = 0;
     bool _facingRight = true;
-    Animator anim;
 
     // Use this for initialization
     void Start()
@@ -31,6 +32,8 @@ public class JimControl : MonoBehaviour
         anim = GetComponent<Animator>();
         planet = GameObject.Find("Planet").GetComponent<Planet>();
         childSprRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        
+        rsBullet = Resources.Load("Bullet") as GameObject;                
     }
 
     // Update is called once per frame
@@ -95,6 +98,7 @@ public class JimControl : MonoBehaviour
         if (inputFire)
         {
             anim.SetBool("fire", true);
+            Fire(childSprRenderer.transform.position);
             _fFireTimer = 0;
         }
         // it made movement
@@ -161,6 +165,14 @@ public class JimControl : MonoBehaviour
         isMighty = false;
         childSprRenderer.enabled = true;
     }
+    //------------------------------------------------
+    // Fire : Set Load Bullet
+    //------------------------------------------------
+    void Fire(Vector2 p)
+    {
+        GameObject obj = ObjectPool.instance.GetGameObject(rsBullet, p*1.5f, this.transform.rotation);
+    }
+
     //------------------------------------------------
     // Flip  Animation
     //------------------------------------------------
