@@ -3,6 +3,8 @@
 --- !u!78 &1
 TagManager:
   tags:
+  - Bullet
+  - Enemy
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -12,11 +14,11 @@ TagManager:
   Builtin Layer 5: UI
   Builtin Layer 6: 
   Builtin Layer 7: 
-  User Layer 8: 
-  User Layer 9: 
-  User Layer 10: 
-  User Layer 11: 
-  User Layer 12: 
+  User Layer 8: Player
+  User Layer 9: Enemy
+  User Layer 10: Bullet(Player)
+  User Layer 11: Bullet(Enemy)
+  User Layer 12: FX
   User Layer 13: 
   User Layer 14: 
   User Layer 15: 
@@ -45,7 +47,15 @@ TagManager:
     userID: 2
     uniqueID: 1516987835
     locked: 0
+  - name: Bullet
+    userID: 3
+    uniqueID: 1373758295
+    locked: 0
   - name: Character
     userID: 1
     uniqueID: 2909736481
+    locked: 0
+  - name: Enemy
+    userID: 4
+    uniqueID: 3842453311
     locked: 0

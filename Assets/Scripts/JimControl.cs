@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
+[RequireComponent(typeof(Rigidbody2D))] 
 public class JimControl : MonoBehaviour
 {
     Planet planet;
     SpriteRenderer childSprRenderer;
     Animator anim;
-    GameObject rsBullet;
+    public GameObject rsBullet;
 
     bool isGroggy = false;
     bool isMighty = false;
@@ -33,7 +33,7 @@ public class JimControl : MonoBehaviour
         planet = GameObject.Find("Planet").GetComponent<Planet>();
         childSprRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         
-        rsBullet = Resources.Load("Bullet") as GameObject;                
+        rsBullet = Resources.Load("2wayBullet") as GameObject;                
     }
 
     // Update is called once per frame
@@ -171,6 +171,15 @@ public class JimControl : MonoBehaviour
     void Fire(Vector2 p)
     {
         GameObject obj = ObjectPool.instance.GetGameObject(rsBullet, p*1.5f, this.transform.rotation);
+    }
+
+    //------------------------------------------------
+    // 
+    //------------------------------------------------
+    void OnTriggerEnter2D(Collider2D colider)
+    {
+        if (colider.tag == "Enemy")
+            Damage();               
     }
 
     //------------------------------------------------
