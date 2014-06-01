@@ -15,6 +15,7 @@ public class Planet : MonoBehaviour
 
     protected bool bRecoveryMode = false; // in this time, Jim cannot charge elec from planet.
     protected float fCurrRotateSpeed = 100.0f;
+    protected bool bAlive = true;
 
 
 	// Use this for initialization
@@ -26,7 +27,7 @@ public class Planet : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-        UpdateElec();
+        if(bAlive) UpdateElec();
         UpdateRotation();
 	}
 
@@ -53,6 +54,8 @@ public class Planet : MonoBehaviour
         else if (fElec >= 300.0f) fTargetSpeed *= 1.0f;
         else if (fElec >= 150.0f) fTargetSpeed *= 0.75f;
         else fTargetSpeed *= 0.5f;
+
+        if (!bAlive) fTargetSpeed = 0.0f;
 
         if(fTargetSpeed - fCurrRotateSpeed > 0.0f)
         {
@@ -86,5 +89,15 @@ public class Planet : MonoBehaviour
         }
 
         return requiredAmount;
+    }
+
+    void Damage(float damage)
+    {
+        fHP -= damage;
+        if (fHP <= 0.0f)
+        {
+            fHP = 0.0f;
+            bAlive = false;
+        }
     }
 }
