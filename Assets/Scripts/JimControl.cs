@@ -22,6 +22,7 @@ public class JimControl : MonoBehaviour
     public float m_fMaxEletricity = 40.0f;
 
     float _fTimer = 0;
+    float _fDrainTimer = 0;
     float _fFireTimer = 0;
     bool _facingRight = true;
 
@@ -33,17 +34,14 @@ public class JimControl : MonoBehaviour
         planet = GameObject.Find("Planet").GetComponent<Planet>();
         childSprRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         
+        isDrain = false;
         //rsBullet = Resources.Load("2wayBullet") as GameObject;                
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Test
-        if (Input.GetKeyDown(KeyCode.T)) { Damage(); Debug.Log("T"); }
-
         _fTimer += Time.deltaTime;
-
         // Movable state
         if (!isGroggy)
         {
@@ -51,24 +49,39 @@ public class JimControl : MonoBehaviour
             if (isMoving)
             {
                 _fTimer = 0;
+                _fDrainTimer = 0;
                 isDrain = false;
                 anim.SetBool("drain", false);
             }
             else
             { // when it doesn't move
-                // This is Ready for Drain, not actual gettting electricity.
-                if (_fTimer >= 1.0f )
+                _fDrainTimer += Time.deltaTime;
+
+                if (isDrain == false && _fDrainTimer > 1.0f)
                 {
                     anim.SetBool("drain", true);        // start Drain motion, but it doesn't drain any things
                     isDrain = true;
-                    _fTimer = 0;
+                    _fDrainTimer = 0;
                 }
-                if (isDrain == true)
+                if (isDrain == true && _fDrainTimer > 0.1f)
                 {
                     isDrain = Drain();
-                    if( isDrain == false )
+                    if (isDrain == false)
                         anim.SetBool("drain", false);
-                }
+                }                
+                //// This is Ready for Drain, not actual gettting electricity.
+                //if (_fTimer >= 1.0f )
+                //{
+                //    anim.SetBool("drain", true);        // start Drain motion, but it doesn't drain any things
+                //    isDrain = true;
+                //    _fTimer = 0;
+                //}
+                //if (isDrain == true)
+                //{
+                //    isDrain = Drain();
+                //    if( isDrain == false )
+                //        anim.SetBool("drain", false);
+                //}
             }
         }       
     }

@@ -4,7 +4,7 @@ using System.Collections;
 public class Enemy0 : MonoBehaviour {
 
     public float HP = 100;
-    public float Power = 10;
+    public float Power = 100;
 
     void OnEnable()
     {
