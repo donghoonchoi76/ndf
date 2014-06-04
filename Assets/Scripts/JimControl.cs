@@ -69,19 +69,6 @@ public class JimControl : MonoBehaviour
                     if (isDrain == false)
                         anim.SetBool("drain", false);
                 }                
-                //// This is Ready for Drain, not actual gettting electricity.
-                //if (_fTimer >= 1.0f )
-                //{
-                //    anim.SetBool("drain", true);        // start Drain motion, but it doesn't drain any things
-                //    isDrain = true;
-                //    _fTimer = 0;
-                //}
-                //if (isDrain == true)
-                //{
-                //    isDrain = Drain();
-                //    if( isDrain == false )
-                //        anim.SetBool("drain", false);
-                //}
             }
         }       
     }
@@ -185,7 +172,13 @@ public class JimControl : MonoBehaviour
     {
         GameObject obj = ObjectPool.instance.GetGameObject(rsBullet, p*1.5f, this.transform.rotation);
     }
-
+    //------------------------------------------------
+    // 
+    //------------------------------------------------
+    public float GetAngle()
+    {
+        return this.transform.rotation.eulerAngles.z;
+    }
     //------------------------------------------------
     // 
     //------------------------------------------------
@@ -194,7 +187,6 @@ public class JimControl : MonoBehaviour
         if (colider.tag == "Enemy")
             Damage();               
     }
-
     //------------------------------------------------
     // Flip  Animation
     //------------------------------------------------
