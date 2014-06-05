@@ -6,6 +6,7 @@ TagManager:
   - Bullet
   - Enemy
   - Planet
+  - Drone
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -15,12 +16,12 @@ TagManager:
   Builtin Layer 5: UI
   Builtin Layer 6: 
   Builtin Layer 7: 
-  User Layer 8: Player
-  User Layer 9: Enemy
-  User Layer 10: Bullet(Player)
-  User Layer 11: Bullet(Enemy)
-  User Layer 12: FX
-  User Layer 13: 
+  User Layer 8: Drone
+  User Layer 9: Player
+  User Layer 10: Enemy
+  User Layer 11: Bullet(Player)
+  User Layer 12: Bullet(Enemy)
+  User Layer 13: FX
   User Layer 14: 
   User Layer 15: 
   User Layer 16: 
@@ -44,17 +45,17 @@ TagManager:
     userID: 0
     uniqueID: 0
     locked: 0
-  - name: Dron
+  - name: Drone
+    userID: 1
+    uniqueID: 2909736481
+    locked: 0
+  - name: Character
     userID: 2
     uniqueID: 1516987835
     locked: 0
   - name: Bullet
     userID: 3
     uniqueID: 1373758295
-    locked: 0
-  - name: Character
-    userID: 1
-    uniqueID: 2909736481
     locked: 0
   - name: Enemy
     userID: 4
