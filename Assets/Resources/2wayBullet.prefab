@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fPower: 10
   m_Velocity: {x: 0, y: 0}
-  speed: 0
+  speed: 3.5
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_fPower: 10
   m_Velocity: {x: 0, y: 0}
-  speed: 0
+  speed: 3.5
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

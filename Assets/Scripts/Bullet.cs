@@ -21,10 +21,7 @@ public class Bullet : MonoBehaviour {
     //
     void OnTriggerEner2D(Collider2D colider)
     {
-        Debug.Log(colider.tag);
-
         // Call Bullet destroy Particle, with the same parent if it is need something
-        Debug.Log("Called Bullet OnTriggerEnter2D");
 
         // Destroy
         Invoke("SelfRelease", 0.1f);

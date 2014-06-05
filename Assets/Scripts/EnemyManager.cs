@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour {
     public GameObject[] enemies = new GameObject[5];
+    List<float> PhaseDuration = new List<float>();
     float m_fTimer;
     int m_nPhase;
 
@@ -10,13 +12,27 @@ public class EnemyManager : MonoBehaviour {
 	void Start () {
         m_nPhase = 0;
 
+        PhaseDuration.Add(15);
+        PhaseDuration.Add(5);
+        PhaseDuration.Add(15);
+        PhaseDuration.Add(5);
+        PhaseDuration.Add(15);
+        PhaseDuration.Add(5);
+        PhaseDuration.Add(0);
+        PhaseDuration.Add(15);
+
         StartCoroutine(RegularGenerator());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        m_fTimer += Time.deltaTime;      
+        m_fTimer += Time.deltaTime;
 
+        if (m_fTimer > PhaseDuration[m_nPhase])
+        {
+            m_nPhase++;
+            m_fTimer = 0;
+        }
 	}
 
     IEnumerator RegularGenerator()
@@ -24,9 +40,53 @@ public class EnemyManager : MonoBehaviour {
         int i = 0;
         do {
             i++;
-            yield return new WaitForSeconds(4);
-            for(int j=0; j<i; j++)
-                GenerateEnemy(enemies[0]);
+
+            switch (m_nPhase)
+            {
+                case 0:
+                    yield return new WaitForSeconds(4);
+                    for(int j=0; j<3; j++)
+                        GenerateEnemy(enemies[0]);            
+                    break;
+                case 1:
+                    yield return new WaitForSeconds(2);
+                    for(int j=0; j<2; j++)
+                        GenerateEnemy(enemies[0]);
+                    GenerateEnemy(enemies[1]);
+                    break;
+                case 2:
+                    yield return new WaitForSeconds(2);
+                    for (int j = 0; j < 2; j++)
+                    {
+                        GenerateEnemy(enemies[0]);
+                        GenerateEnemy(enemies[1]);
+                    }
+                    break;
+                case 3:
+                    yield return new WaitForSeconds(1);
+                    for (int j = 0; j < 2; j++)
+                    {
+                        GenerateEnemy(enemies[0]);
+                        GenerateEnemy(enemies[1]);
+                    }
+                    break;
+                case 4:
+                    yield return new WaitForSeconds(1);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        GenerateEnemy(enemies[0]);
+                        GenerateEnemy(enemies[1]);
+                    }
+                    break;
+                default:
+                    yield return new WaitForSeconds(1);
+                    for (int j = 0; j < 10; j++)
+                    {
+                        GenerateEnemy(enemies[0]);
+                        GenerateEnemy(enemies[1]);
+                    }
+                    break;
+            }            
         } while (i>0);
     }
 
@@ -51,7 +111,7 @@ public class EnemyManager : MonoBehaviour {
             Vector2 target_dir = target_pos - p;
             Vector2 forward = Vector2.up;
             GameObject enemy = ObjectPool.instance.GetGameObject(obj, p, Quaternion.FromToRotation(forward, target_dir));
-            enemy.GetComponent<Enemy0>().ChangeSpeed(Random.Range(0.1f, 2.0f));
+            enemy.GetComponent<EnemyBase>().ChangeSpeed(Random.Range(0.1f, 2.0f));
         }
     }
 
